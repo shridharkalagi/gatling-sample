@@ -1,0 +1,10 @@
+{
+  "simulation": "apitest.Simulation1",
+  "simulationId": "simulation1",
+  "start": 1596024706787,
+  "description": "",
+  "scenarios": ["Scenario1"],
+  "assertions": [
+
+  ]
+}

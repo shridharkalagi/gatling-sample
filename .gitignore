@@ -1,0 +1,7 @@
+#target -- To upload the html report
+*.class
+*.iml
+*.ipr
+*.iws
+.idea
+out
