@@ -1,4 +1,4 @@
-#target -- To upload the html report
+target
 *.class
 *.iml
 *.ipr
