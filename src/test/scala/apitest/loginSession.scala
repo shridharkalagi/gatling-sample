@@ -16,7 +16,7 @@ class loginSession extends Simulation {
     println("***** My simulation has ended! ******")
   }
 
-  val req = "{\n\t\"username\": \"testuser@ncg\",\n\t\"password\": \"Test@135\",\n\t\"grantType\": \"password\"\n}"
+  val req = "{\n\t\"username\": \"pmon.201@ndhm\",\n\t\"password\": \"Test@135\",\n\t\"grantType\": \"password\"\n}"
 
   val theHttpProtocolBuilder: HttpProtocolBuilder = http
     .header("Content-Type", "application/json")
@@ -29,7 +29,7 @@ class loginSession extends Simulation {
       http("loginRequest")
         .post("/sessions")
         .body(StringBody(req))
-        .check(status.is(201))
+        .check(status.is(200))
         .disableFollowRedirect
     )
 
