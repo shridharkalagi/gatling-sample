@@ -4,6 +4,7 @@ import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import io.gatling.http.protocol.HttpProtocolBuilder
 import io.gatling.http.request.builder.HttpRequestBuilder.toActionBuilder
+import scala.concurrent.duration._
 
 import scala.util.Random
 
@@ -80,7 +81,7 @@ class verifyUser extends Simulation {
    * We also specify the HTTP protocol builder to be used by the load simulation.
    */
   setUp(
-    scn.inject(atOnceUsers(50))
+    scn.inject(rampUsers(10) during (10 seconds))
   ).protocols(theHttpProtocolBuilder)
 }
 
