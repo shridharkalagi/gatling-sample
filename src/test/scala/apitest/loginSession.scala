@@ -4,6 +4,7 @@ import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import io.gatling.http.protocol.HttpProtocolBuilder
 import io.gatling.http.request.builder.HttpRequestBuilder.toActionBuilder
+import scala.concurrent.duration._
 
 class loginSession extends Simulation {
   /* Place for arbitrary Scala code that is to be executed before the simulation begins. */
@@ -34,7 +35,7 @@ class loginSession extends Simulation {
     )
 
   setUp(
-    scn.inject(atOnceUsers(50))
+    scn.inject(rampUsers(500) during (10 seconds))
   ).protocols(theHttpProtocolBuilder)
 }
 
