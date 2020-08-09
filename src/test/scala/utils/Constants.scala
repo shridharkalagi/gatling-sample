@@ -1,0 +1,6 @@
+package utils
+
+object Constants {
+  val CONTENT_TYPE = "Content-Type"
+  val APPLICATION_JSON = "application/json"
+}
