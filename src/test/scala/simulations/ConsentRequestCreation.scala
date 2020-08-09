@@ -21,10 +21,9 @@ class ConsentRequestCreation extends Simulation {
     .baseUrl(nhaBaseUrl)
     .header(CONTENT_TYPE, APPLICATION_JSON)
 
-  val scenarios = scenario("Fetch patient information by HIU").exec(hiuRequests.userLogin,
+  val scenarios = scenario("Fetch patient information by HIU").exec(hiuRequests.hiuUserLogin,
     hiuRequests.fetchPatientInfo, hiuRequests.createConsentRequest)
 
-  //  setUp(scenarios.inject(rampUsers(1) during (10 seconds))).protocols(httpProtocol).maxDuration(10)
   setUp(scenarios.inject(atOnceUsers(1))).protocols(httpProtocol)
 }
 
