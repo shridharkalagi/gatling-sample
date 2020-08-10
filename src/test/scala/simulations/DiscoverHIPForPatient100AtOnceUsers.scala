@@ -3,11 +3,11 @@ package simulations
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import io.gatling.http.protocol.HttpProtocolBuilder
-import scenarios.CreateConsentRequestForAPatient
+import scenarios.DiscoverHIPForPatient
 import utils.Constants._
 import utils.Environment.baseUrl
 
-class ConsentRequestCreation100AtOnceUsers extends Simulation {
+class DiscoverHIPForPatient100AtOnceUsers extends Simulation {
   /* Place for arbitrary Scala code that is to be executed before the simulation begins. */
   before {
     println("***** My simulation is about to begin! *****")
@@ -23,7 +23,7 @@ class ConsentRequestCreation100AtOnceUsers extends Simulation {
     .header(CONTENT_TYPE, APPLICATION_JSON)
 
   setUp(
-    CreateConsentRequestForAPatient.createConsentRequestScenario.inject(atOnceUsers(1)).protocols(httpProtocol)
+    DiscoverHIPForPatient.discoverHIPScenario.inject(atOnceUsers(1)).protocols(httpProtocol)
   )
 }
 
