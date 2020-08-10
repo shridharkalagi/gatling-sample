@@ -2,11 +2,11 @@ package simulations
 
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
-import request.hiu.hiuRequests
+import scenarios.CreateConsentRequestForAPatient
 import utils.Constants._
-import utils.Environment.nhaBaseUrl
+import utils.Environment.{cmBaseUrl, nhaBaseUrl}
 
-class ConsentRequestCreation extends Simulation {
+class ConsentRequestCreation100AtOnceUsers extends Simulation {
   /* Place for arbitrary Scala code that is to be executed before the simulation begins. */
   before {
     println("***** My simulation is about to begin! *****")
@@ -21,9 +21,12 @@ class ConsentRequestCreation extends Simulation {
     .baseUrl(nhaBaseUrl)
     .header(CONTENT_TYPE, APPLICATION_JSON)
 
-  val scenarios = scenario("Fetch patient information by HIU").exec(hiuRequests.hiuUserLogin,
-    hiuRequests.fetchPatientInfo, hiuRequests.createConsentRequest)
+  val cmHttpProtocol = http
+    .baseUrl(cmBaseUrl)
+    .header(CONTENT_TYPE, APPLICATION_JSON)
 
-  setUp(scenarios.inject(atOnceUsers(1))).protocols(httpProtocol)
+  setUp(CreateConsentRequestForAPatient.scenarios.inject(atOnceUsers(1))
+    .protocols(httpProtocol))
+
 }
 
