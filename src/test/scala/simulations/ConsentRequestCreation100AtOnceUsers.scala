@@ -2,7 +2,7 @@ package simulations
 
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
-import scenarios.CreateConsentRequestForAPatient
+import scenarios.{CreateConsentRequestForAPatient, DenyConsentRequest}
 import utils.Constants._
 import utils.Environment.{cmBaseUrl, nhaBaseUrl}
 
@@ -25,8 +25,8 @@ class ConsentRequestCreation100AtOnceUsers extends Simulation {
     .baseUrl(cmBaseUrl)
     .header(CONTENT_TYPE, APPLICATION_JSON)
 
-  setUp(CreateConsentRequestForAPatient.scenarios.inject(atOnceUsers(1))
-    .protocols(httpProtocol))
-
+  setUp(
+    DenyConsentRequest.denyConsentRequest1.inject(atOnceUsers(1)).protocols(httpProtocol)
+    , DenyConsentRequest.denyConsentRequest2.inject(atOnceUsers(1)).protocols(cmHttpProtocol))
 }
 

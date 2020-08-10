@@ -45,6 +45,6 @@ object CreateConsentRequestForAPatient {
 
   val scenarios: ScenarioBuilder =
     scenario("Fetch patient information by HIU")
-    .exec(hiuUserLogin, fetchPatientInfo, createConsentRequest)
-//      , getConsentRequestId)
+    .exec(hiuUserLogin, fetchPatientInfo, createConsentRequest
+      , getConsentRequestId)
 }
