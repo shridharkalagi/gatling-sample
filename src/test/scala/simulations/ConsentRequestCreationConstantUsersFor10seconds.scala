@@ -2,9 +2,10 @@ package simulations
 
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
+import io.gatling.http.protocol.HttpProtocolBuilder
 import scenarios.CreateConsentRequestForAPatient
 import utils.Constants._
-import utils.Environment.{cmBaseUrl, nhaBaseUrl}
+import utils.Environment.baseUrl
 
 class ConsentRequestCreationConstantUsersFor10seconds extends Simulation {
   /* Place for arbitrary Scala code that is to be executed before the simulation begins. */
@@ -17,15 +18,12 @@ class ConsentRequestCreationConstantUsersFor10seconds extends Simulation {
     println("***** My simulation has ended! ******")
   }
 
-  val httpProtocol = http
-    .baseUrl(nhaBaseUrl)
+  val httpProtocol: HttpProtocolBuilder = http
+    .baseUrl(baseUrl)
     .header(CONTENT_TYPE, APPLICATION_JSON)
 
-  val cmHttpProtocol = http
-    .baseUrl(cmBaseUrl)
-    .header(CONTENT_TYPE, APPLICATION_JSON)
-
-  setUp(CreateConsentRequestForAPatient.scenarios.inject(constantUsersPerSec(1) during (10)).protocols(httpProtocol))
+  setUp(CreateConsentRequestForAPatient.createConsentRequestScenario.inject(constantUsersPerSec(100) during (10))
+    .protocols(httpProtocol))
 
 }
 

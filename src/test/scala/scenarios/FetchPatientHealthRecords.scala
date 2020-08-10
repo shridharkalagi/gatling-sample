@@ -15,7 +15,7 @@ object FetchPatientHealthRecords {
 
   val userLogin: ChainBuilder = exec(
     http("create session")
-      .post("/sessions")
+      .post("/cm/sessions")
       .body(StringBody(userRequestBody))
       .check(status.is(200))
       .check(jsonPath("$.token").findAll.saveAs("userAccessToken"))
@@ -23,7 +23,7 @@ object FetchPatientHealthRecords {
 
   val userHealthRecords: ChainBuilder = exec(
     http("user health records")
-      .get("/patients/me")
+      .get("/cm/patients/me")
       .header("Authorization", "${userAccessToken}")
       .check(status.is(200))
   )

@@ -16,7 +16,7 @@ object DenyConsentRequest {
 
   val hiuUserLogin: ChainBuilder = exec(
     http("create hiu session")
-      .post("/sessions")
+      .post("/api-hiu/sessions")
       .body(StringBody(loginRequestBody))
       .check(status.is(200))
       .check(jsonPath("$.accessToken").findAll.saveAs("accessToken"))
@@ -39,7 +39,7 @@ object DenyConsentRequest {
 
   val getConsentRequestId: ChainBuilder = exec(
     http("get consent request id")
-      .get("/v1/hiu/consent-requests")
+      .get("/api-hiu/v1/hiu/consent-requests")
       .header("Authorization", "${accessToken}")
       .check(status.is(200))
 //      .check(jsonPath("$..[0].consentRequestId").findAll.saveAs("request"))
@@ -53,7 +53,7 @@ object DenyConsentRequest {
 
   val userLogin: ChainBuilder = exec(
     http("create patient session")
-      .post("/sessions")
+      .post("/cm/sessions")
       .body(StringBody(userRequestBody))
       .check(status.is(200))
       .check(jsonPath("$.token").findAll.saveAs("userAccessToken"))
@@ -61,7 +61,7 @@ object DenyConsentRequest {
 
   val denyHIUConsentRequest: ChainBuilder = exec(
     http("grant consent request")
-      .post("/consent-requests/\"${consentId}\"/deny")
+      .post("/cm/consent-requests/\"${consentId}\"/deny")
       .header("Authorization", "${userAccessToken}")
       .check(status.is(204))
   )

@@ -14,7 +14,7 @@ object CreateConsentRequestForAPatient {
 
   val hiuUserLogin: ChainBuilder = exec(
     http("create session")
-      .post("/sessions")
+      .post("/api-hiu/sessions")
       .body(StringBody(loginRequestBody))
       .check(status.is(200))
       .check(jsonPath("$.accessToken").findAll.saveAs("accessToken"))
@@ -22,14 +22,14 @@ object CreateConsentRequestForAPatient {
 
   val fetchPatientInfo: ChainBuilder = exec(
     http("patient info")
-      .get("/v1/patients/" + Environment.username + "?")
+      .get("/api-hiu/v1/patients/" + Environment.username + "?")
       .header("Authorization", "${accessToken}")
       .check(status.is(200))
   )
 
   val createConsentRequest: ChainBuilder = exec(
     http("create consent request")
-      .post("/v1/hiu/consent-requests")
+      .post("/api-hiu/v1/hiu/consent-requests")
       .header("Authorization", "${accessToken}")
       .body(StringBody(createConsentRequestBody)).asJson
       .check(status.is(202))
@@ -37,7 +37,7 @@ object CreateConsentRequestForAPatient {
 
   val getConsentRequestId: ChainBuilder = exec(
     http("get consent request id")
-      .get("/v1/hiu/consent-requests")
+      .get("/api-hiu/v1/hiu/consent-requests")
       .header("Authorization", "${accessToken}")
       .check(status.is(200))
       .check(jsonPath("$..[0].consentRequestId").findAll.saveAs("request"))
