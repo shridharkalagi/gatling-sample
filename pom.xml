@@ -67,9 +67,38 @@
             <plugin>
                 <groupId>io.gatling</groupId>
                 <artifactId>gatling-maven-plugin</artifactId>
-                <!--                <configuration>-->
-                <!--                    <simulationClass>apitest.Simulation</simulationClass>-->
-                <!--                </configuration>-->
+                <configuration>
+                    <simulationsFolder>src/test/scala</simulationsFolder>
+                    <runMultipleSimulations>true</runMultipleSimulations>
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <id>Execution-1</id>
+                        <configuration>
+                            <simulationClass>simulations.ConsentRequestCreation100AtOnceUsers</simulationClass>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>Execution-2</id>
+                        <configuration>
+                            <simulationClass>simulations.ConsentRequestCreationConstantUsersFor10seconds
+                            </simulationClass>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>Execution-3</id>
+                        <configuration>
+                            <simulationClass>simulations.DenyConsentRequest100AtOnceUsers</simulationClass>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>Execution-4</id>
+                        <configuration>
+                            <simulationClass>simulations.FetchPatientHealthRecords100AtOnceUsers</simulationClass>
+                        </configuration>
+                    </execution>
+                </executions>
                 <version>3.0.5</version>
             </plugin>
         </plugins>

@@ -4,6 +4,8 @@ import io.gatling.core.Predef._
 import io.gatling.core.structure.{ChainBuilder, ScenarioBuilder}
 import io.gatling.http.Predef._
 import io.gatling.http.request.builder.HttpRequestBuilder.toActionBuilder
+import utils.Constants
+import utils.Constants._
 import utils.Environment._
 
 
@@ -24,14 +26,14 @@ object DiscoverHIPForPatient {
   val providerDetails: ChainBuilder = exec(
     http("discover HIP for the user")
       .get("/cm/providers/"+linkedProvider+"?")
-      .header("Authorization", "${userAccessToken}")
+      .header(authorization, "${userAccessToken}")
       .check(status.is(200))
   )
 
   val discoverHIP: ChainBuilder = exec(
     http("discover care context for the HIP")
       .post("/cm/v1/care-contexts/discover")
-      .header("Authorization", "${userAccessToken}")
+      .header(authorization, "${userAccessToken}")
       .body(StringBody(discoverHIPRequest))
       .check(status.is(200))
   )

@@ -4,6 +4,8 @@ import io.gatling.core.Predef._
 import io.gatling.core.structure.{ChainBuilder, ScenarioBuilder}
 import io.gatling.http.Predef._
 import io.gatling.http.request.builder.HttpRequestBuilder.toActionBuilder
+import utils.Constants
+import utils.Constants._
 import utils.Environment._
 
 
@@ -18,14 +20,26 @@ object FetchPatientHealthRecords {
       .body(StringBody(userRequestBody))
       .check(status.is(200))
       .check(jsonPath("$.token").findAll.saveAs("userAccessToken"))
-  )
+      .check(bodyString.saveAs("BODY"))
+  ).exec(session => {
+    val body = session("BODY").as[String]
+    println(body)
+    session
+  })
+//  )
 
   val userHealthRecords: ChainBuilder = exec(
     http("user health records")
       .get("/cm/patients/me")
-      .header("Authorization", "${userAccessToken}")
+      .header(authorization, "${userAccessToken}")
       .check(status.is(200))
-  )
+      .check(bodyString.saveAs("BODY"))
+  ).exec(session => {
+    val body = session("BODY").as[String]
+    println(body)
+    session
+  })
+//  )
 
 
   val fetchUserHealthRecords: ScenarioBuilder =

@@ -51,13 +51,9 @@ object DenyConsentRequest {
       .check(status.is(204))
   )
 
-  val denyConsentRequest1: ScenarioBuilder =
-    scenario("Fetch patient information by HIU1")
-      .exec(hiuUserLogin, getConsentRequestId)
-
-  val denyConsentRequest2: ScenarioBuilder =
-    scenario("Fetch patient information by HIU2")
-      .exec(userLogin, denyHIUConsentRequest)
+  val denyConsentRequest: ScenarioBuilder =
+    scenario("Fetch patient information by HIU")
+      .exec(hiuUserLogin, getConsentRequestId, userLogin, denyHIUConsentRequest)
 
 
 }

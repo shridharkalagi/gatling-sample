@@ -23,7 +23,6 @@ class DenyConsentRequest100AtOnceUsers extends Simulation {
     .header(CONTENT_TYPE, APPLICATION_JSON)
 
   setUp(
-    DenyConsentRequest.denyConsentRequest1.inject(atOnceUsers(1)),
-    DenyConsentRequest.denyConsentRequest2.inject(atOnceUsers(1)).protocols(httpProtocol))
+    DenyConsentRequest.denyConsentRequest.inject(atOnceUsers(1)).protocols(httpProtocol))
 }
 
