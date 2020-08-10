@@ -4,48 +4,40 @@ import io.gatling.core.Predef._
 import io.gatling.core.structure.{ChainBuilder, ScenarioBuilder}
 import io.gatling.http.Predef._
 import io.gatling.http.request.builder.HttpRequestBuilder.toActionBuilder
-import utils.Environment
+import utils.Environment._
 
 
 object DiscoverHIPForPatient {
 
-  val loginRequestBody = "{\n\t\"username\": \"admin\",\n\t\"password\": \"password\"}"
-  val createConsentRequestBody: String = "{\n    \"consent\": {\n        \"patient\": {\n            \"id\": \"" + Environment.username + "\"\n        },\n        \"purpose\": {\n            \"code\": \"CAREMGT\"\n        },\n        \"hiTypes\": [\n            \"OPConsultation\"\n        ],\n        \"permission\": {\n            \"dateRange\": {\n                \"from\": \"1992-04-03T10:05:26.352Z\",\n                \"to\": \"2020-08-08T10:05:26.352Z\"\n            },\n            \"dataEraseAt\": \"2020-10-30T12:30:00.352Z\"\n        }\n    }\n}"
-  val userRequestBody = "{\"grantType\":\"password\",\"password\":\"Test@1324\",\"username\":\"navjot60@ndhm\"}"
-
-
-  val hiuUserLogin: ChainBuilder = exec(
-    http("create session")
-      .post("/sessions")
-      .body(StringBody(loginRequestBody))
-      .check(status.is(200))
-      .check(jsonPath("$.accessToken").findAll.saveAs("accessToken"))
-  )
-
-  val getConsentRequestId: ChainBuilder = exec(
-    http("get consent request id")
-      .get("/v1/hiu/consent-requests")
-      .header("Authorization", "${accessToken}")
-      .check(status.is(200))
-      .check(jsonPath("$..[0].consentRequestId").findAll.saveAs("request"))
-  )
+  val requestId = java.util.UUID.randomUUID.toString
+  val discoverHIPRequest: String = "{\n    \"hip\": {\n        \"id\": \""+linkedProvider+"\"\n    },\n    \"requestId\": \""+requestId+"\"\n}"
+  val userRequestBody = "{\"grantType\":\"password\",\"password\":\""+password+"\",\"username\":\""+username+"\"}"
 
   val userLogin: ChainBuilder = exec(
     http("create session")
-      .post("/sessions")
+      .post("/cm/sessions")
       .body(StringBody(userRequestBody))
       .check(status.is(200))
       .check(jsonPath("$.token").findAll.saveAs("userAccessToken"))
   )
 
-  val grantHIUConsentRequest: ChainBuilder = exec(
-    http("grant consent request")
-      .post("/consent-requests/\"${request}\"/approve")
+  val providerDetails: ChainBuilder = exec(
+    http("discover HIP for the user")
+      .get("/cm/providers/"+linkedProvider+"?")
       .header("Authorization", "${userAccessToken}")
-      .check(status.is(204))
+      .check(status.is(200))
   )
 
-  val grantConsentRequest: ScenarioBuilder =
+  val discoverHIP: ChainBuilder = exec(
+    http("discover care context for the HIP")
+      .post("/cm/v1/care-contexts/discover")
+      .header("Authorization", "${userAccessToken}")
+      .body(StringBody(discoverHIPRequest))
+      .check(status.is(200))
+  )
+
+
+  val discoverHIPScenario: ScenarioBuilder =
     scenario("Fetch patient information by HIU")
-      .exec(hiuUserLogin, getConsentRequestId, userLogin, grantHIUConsentRequest)
+      .exec(userLogin, providerDetails, discoverHIP)
 }
