@@ -9,7 +9,7 @@ import utils.Environment
 
 object CreateConsentRequestForAPatient {
 
-  val loginRequestBody: String = "{\n\t\"username\": \"admin\",\n\t\"password\": \"password\"}"
+  val loginRequestBody: String = "{\n\t\"username\": \"lakshmi\",\n\t\"password\": \"password\"}"
   val createConsentRequestBody: String = "{\n    \"consent\": {\n        \"patient\": {\n            \"id\": \"" + Environment.username + "\"\n        },\n        \"purpose\": {\n            \"code\": \"CAREMGT\"\n        },\n        \"hiTypes\": [\n            \"OPConsultation\"\n        ],\n        \"permission\": {\n            \"dateRange\": {\n                \"from\": \"1992-04-03T10:05:26.352Z\",\n                \"to\": \"2020-08-08T10:05:26.352Z\"\n            },\n            \"dataEraseAt\": \"2020-10-30T12:30:00.352Z\"\n        }\n    }\n}"
   val userRequestBody: String = "{\"grantType\":\"password\",\"password\":\"Test@1324\",\"username\":\"navjot60@ndhm\"}"
 
