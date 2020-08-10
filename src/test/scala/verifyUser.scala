@@ -1,11 +1,9 @@
-package apitest
-
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import io.gatling.http.protocol.HttpProtocolBuilder
 import io.gatling.http.request.builder.HttpRequestBuilder.toActionBuilder
-import scala.concurrent.duration._
 
+import scala.concurrent.duration._
 import scala.util.Random
 
 /**
@@ -26,17 +24,6 @@ class verifyUser extends Simulation {
     println("***** My simulation has ended! ******")
   }
 
-  object randomStringGenerator {
-
-    def randomString(length: Int) = Random.alphanumeric.filter(_.isDigit).take(length).mkString
-  }
-
-
-  /*
-   * A HTTP protocol builder is used to specify common properties of request(s) to be sent,
-   * for instance the base URL, HTTP headers that are to be enclosed with all requests etc.
-   */
-
   /*
    * A scenario consists of one or more requests. For instance logging into a e-commerce
    * website, placing an order and then logging out.
@@ -45,17 +32,15 @@ class verifyUser extends Simulation {
   /* Scenario1 is a name that describes the scenario. */
   val req = "{\n\t\"identifierType\": \"mobile\",\n\t\"identifier\": \"+91-8888888888\"\n}"
 
-  var randomSession = Iterator.continually(Map("randsession" -> (
-    req.replace("8888888888", randomStringGenerator.randomString(10)))))
 
-  println(s"$req")
-
+  /*
+   * A HTTP protocol builder is used to specify common properties of request(s) to be sent,
+   * for instance the base URL, HTTP headers that are to be enclosed with all requests etc.
+   */
   val theHttpProtocolBuilder: HttpProtocolBuilder = http
     .header("Content-Type", "application/json")
-    .baseUrl("http://uat.ndhm.gov.in/cm")
-  //    .baseUrl("http://dev.tweka.in/cm")
-  //    .baseUrl("https://ncg-dev.projecteka.in/consent-manager")
-
+    //    .baseUrl("http://uat.ndhm.gov.in/cm")
+    .baseUrl("http://dev.tweka.in/cm")
   val scn = scenario("Scenario1")
     .feed(randomSession)
     //    .exec { session =>
@@ -72,6 +57,16 @@ class verifyUser extends Simulation {
         .check(status.is(201))
         .disableFollowRedirect
     )
+
+  println(s"$req")
+  var randomSession = Iterator.continually(Map("randsession" -> (
+    req.replace("8888888888", randomStringGenerator.randomString(10)))))
+  //    .baseUrl("https://ncg-dev.projecteka.in/consent-manager")
+
+  object randomStringGenerator {
+
+    def randomString(length: Int) = Random.alphanumeric.filter(_.isDigit).take(length).mkString
+  }
 
 
   /*
