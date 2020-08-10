@@ -22,21 +22,6 @@ object DenyConsentRequest {
       .check(jsonPath("$.accessToken").findAll.saveAs("accessToken"))
   )
 
-  //  val fetchPatientInfo: ChainBuilder = exec(
-  //    http("patient info")
-  //      .get("/v1/patients/" + Environment.username + "?")
-  //      .header("Authorization", "${accessToken}")
-  //      .check(status.is(200))
-  //  )
-  //
-  //  val createConsentRequest: ChainBuilder = exec(
-  //    http("create consent request")
-  //      .post("/v1/hiu/consent-requests")
-  //      .header("Authorization", "${accessToken}")
-  //      .body(StringBody(createConsentRequestBody)).asJson
-  //      .check(status.is(202))
-  //  )
-
   val getConsentRequestId: ChainBuilder = exec(
     http("get consent request id")
       .get("/api-hiu/v1/hiu/consent-requests")

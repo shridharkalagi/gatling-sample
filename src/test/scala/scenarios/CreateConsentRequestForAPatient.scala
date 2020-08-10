@@ -31,9 +31,14 @@ object CreateConsentRequestForAPatient {
     http("create consent request")
       .post("/api-hiu/v1/hiu/consent-requests")
       .header("Authorization", "${accessToken}")
-      .body(StringBody(createConsentRequestBody)).asJson
+      .body(StringBody(createConsentRequestBody))
       .check(status.is(202))
-  )
+      .check(bodyString.saveAs("BODY"))
+  ).exec(session => {
+    val body = session("BODY").as[String]
+    println(body)
+    session
+  })
 
   val getConsentRequestId: ChainBuilder = exec(
     http("get consent request id")
@@ -43,8 +48,8 @@ object CreateConsentRequestForAPatient {
       .check(jsonPath("$..[0].consentRequestId").findAll.saveAs("request"))
   )
 
-  val scenarios: ScenarioBuilder =
+  val createConsentRequestScenario: ScenarioBuilder =
     scenario("Fetch patient information by HIU")
-    .exec(hiuUserLogin, fetchPatientInfo, createConsentRequest
-      , getConsentRequestId)
+      .exec(hiuUserLogin, fetchPatientInfo, createConsentRequest
+        , getConsentRequestId)
 }

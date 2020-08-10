@@ -2,7 +2,8 @@ package simulations
 
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
-import scenarios.{CreateConsentRequestForAPatient, DenyConsentRequest}
+import io.gatling.http.protocol.HttpProtocolBuilder
+import scenarios.CreateConsentRequestForAPatient
 import utils.Constants._
 import utils.Environment.baseUrl
 
