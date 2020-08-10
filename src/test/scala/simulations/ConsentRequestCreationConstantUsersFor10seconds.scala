@@ -25,7 +25,7 @@ class ConsentRequestCreationConstantUsersFor10seconds extends Simulation {
     .baseUrl(cmBaseUrl)
     .header(CONTENT_TYPE, APPLICATION_JSON)
 
-  setUp(CreateConsentRequestForAPatient.scenarios.inject(constantUsersPerSec(5) during (10)).protocols(httpProtocol))
+  setUp(CreateConsentRequestForAPatient.scenarios.inject(constantUsersPerSec(1) during (10)).protocols(httpProtocol))
 
 }
 

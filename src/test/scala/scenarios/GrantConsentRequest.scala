@@ -44,5 +44,4 @@ object GrantConsentRequest {
       .header("Authorization", "${userAccessToken}")
       .check(status.is(204))
   )
-
 }

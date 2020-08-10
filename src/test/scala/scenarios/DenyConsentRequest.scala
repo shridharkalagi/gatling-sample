@@ -59,5 +59,4 @@ object DenyConsentRequest {
       .header("Authorization", "${userAccessToken}")
       .check(status.is(204))
   )
-
 }
