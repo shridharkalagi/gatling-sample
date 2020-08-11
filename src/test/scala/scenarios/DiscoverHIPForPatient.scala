@@ -10,8 +10,7 @@ import utils.Environment._
 
 object DiscoverHIPForPatient {
 
-  val requestId = java.util.UUID.randomUUID.toString
-  val discoverHIPRequest: String = "{\n    \"hip\": {\n        \"id\": \""+LINKED_PROVIDER+"\"\n    },\n    \"requestId\": \""+requestId+"\"\n}"
+  val discoverHIPRequest: String = "{\n    \"hip\": {\n        \"id\": \""+LINKED_PROVIDER+"\"\n    },\n    \"requestId\": \""+java.util.UUID.randomUUID.toString+"\"\n}"
   val userRequestBody = "{\"grantType\":\"password\",\"password\":\""+password+"\",\"username\":\""+username+"\"}"
 
   val userLogin: ChainBuilder = exec(

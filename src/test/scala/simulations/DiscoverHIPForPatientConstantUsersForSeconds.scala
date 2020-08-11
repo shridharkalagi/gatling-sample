@@ -5,9 +5,9 @@ import io.gatling.http.Predef._
 import io.gatling.http.protocol.HttpProtocolBuilder
 import scenarios.DiscoverHIPForPatient
 import utils.Constants._
-import utils.Environment.baseUrl
+import utils.Environment._
 
-class DiscoverHIPForPatient100AtOnceUsers extends Simulation {
+class DiscoverHIPForPatientConstantUsersForSeconds extends Simulation {
   /* Place for arbitrary Scala code that is to be executed before the simulation begins. */
   before {
     println("***** My simulation is about to begin! *****")
@@ -22,8 +22,11 @@ class DiscoverHIPForPatient100AtOnceUsers extends Simulation {
     .baseUrl(baseUrl)
     .header(CONTENT_TYPE, APPLICATION_JSON)
 
+
   setUp(
-    DiscoverHIPForPatient.discoverHIPScenario.inject(atOnceUsers(1)).protocols(httpProtocol)
+    DiscoverHIPForPatient.discoverHIPScenario
+      .inject(constantUsersPerSec(t_users) during (t_holdFor))
+      .protocols(httpProtocol)
   )
 }
 
