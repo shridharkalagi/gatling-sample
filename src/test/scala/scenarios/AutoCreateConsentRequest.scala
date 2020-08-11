@@ -12,7 +12,7 @@ object AutoCreateConsentRequest {
 
   val userRequestBody = "{\"grantType\":\"password\",\"password\":\"" + Environment.password + "\",\"username\":\"" + Environment.username + "\"}"
 
-  val createConsentRequestBody: String = "{\"hipIds\": [\n" + "  \""+ linkedProvider +"\" \n" + "    ],\n" + "    \"reloadConsent\": true      \n" + "}"
+  val createConsentRequestBody: String = "{\"hipIds\": [\n" + "  \""+ LINKED_PROVIDER +"\" \n" + "    ],\n" + "    \"reloadConsent\": true      \n" + "}"
 
 
   val userLogin: ChainBuilder = exec(
@@ -29,7 +29,7 @@ object AutoCreateConsentRequest {
       .header("Authorization", "${userAccessToken}")
       .body(StringBody(createConsentRequestBody))
       .check(status.is(200))
-      .check(jsonPath("$." + linkedProvider).findAll.saveAs("requestId"))
+      .check(jsonPath("$." + LINKED_PROVIDER).findAll.saveAs("requestId"))
       .check(bodyString.saveAs("BODY"))
         ).exec(session => {
           val body = session("BODY").as[String]
@@ -60,7 +60,7 @@ object AutoCreateConsentRequest {
   val fetchHealthData: ChainBuilder = exec(
     http("fetch health-data")
       .post("/cm/v1/patient/health-information/fetch")
-      .header("Authorization", "${userAccessToken}")
+      .header(AUTHORIZATION, "${userAccessToken}")
       .body(StringBody(fetchHealthDataRequestBody))
       .check(status.is(200))
       .check(bodyString.saveAs("BODY"))

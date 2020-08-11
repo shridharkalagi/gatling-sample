@@ -22,16 +22,16 @@ object FetchPatientHealthRecords {
   )
 
   val userDetail: ChainBuilder = exec(
-    http("user health records")
+    http("user details")
       .get("/cm/patients/me")
-      .header(authorization, "${userAccessToken}")
+      .header(AUTHORIZATION, "${userAccessToken}")
       .check(status.is(200))
   )
 
   val userHealthRecords: ChainBuilder = exec(
     http("user health records")
       .get("/cm/patients/links")
-      .header("Authorization", "${userAccessToken}")
+      .header(AUTHORIZATION, "${userAccessToken}")
       .check(status.is(200))
   )
 

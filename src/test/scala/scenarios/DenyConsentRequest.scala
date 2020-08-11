@@ -45,7 +45,7 @@ object DenyConsentRequest {
   )
 
   val denyHIUConsentRequest: ChainBuilder = exec(
-    http("grant consent request")
+    http("deny consent request")
       .post("/cm/consent-requests/\"${consentId}\"/deny")
       .header("Authorization", "${userAccessToken}")
       .check(status.is(204))
