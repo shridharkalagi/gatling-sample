@@ -11,7 +11,7 @@ import utils.Environment._
 object DiscoverHIPForPatient {
 
   val requestId = java.util.UUID.randomUUID.toString
-  val discoverHIPRequest: String = "{\n    \"hip\": {\n        \"id\": \""+linkedProvider+"\"\n    },\n    \"requestId\": \""+requestId+"\"\n}"
+  val discoverHIPRequest: String = "{\n    \"hip\": {\n        \"id\": \""+LINKED_PROVIDER+"\"\n    },\n    \"requestId\": \""+requestId+"\"\n}"
   val userRequestBody = "{\"grantType\":\"password\",\"password\":\""+password+"\",\"username\":\""+username+"\"}"
 
   val userLogin: ChainBuilder = exec(
@@ -24,15 +24,15 @@ object DiscoverHIPForPatient {
 
   val providerDetails: ChainBuilder = exec(
     http("discover HIP for the user")
-      .get("/cm/providers/"+linkedProvider+"?")
-      .header(authorization, "${userAccessToken}")
+      .get("/cm/providers/"+LINKED_PROVIDER+"?")
+      .header(AUTHORIZATION, "${userAccessToken}")
       .check(status.is(200))
   )
 
   val discoverHIP: ChainBuilder = exec(
     http("discover care context for the HIP")
       .post("/cm/v1/care-contexts/discover")
-      .header(authorization, "${userAccessToken}")
+      .header(AUTHORIZATION, "${userAccessToken}")
       .body(StringBody(discoverHIPRequest))
       .check(status.is(200))
   )
