@@ -5,9 +5,10 @@ import io.gatling.http.Predef._
 import io.gatling.http.protocol.HttpProtocolBuilder
 import scenarios.FetchPatientHealthRecords
 import utils.Constants._
-import utils.Environment.baseUrl
+import utils.Environment
+import utils.Environment._
 
-class FetchPatientHealthRecords100AtOnceUsers extends Simulation {
+class FetchPatientHealthRecordsAtOnceUsers extends Simulation {
   /* Place for arbitrary Scala code that is to be executed before the simulation begins. */
   before {
     println("***** My simulation is about to begin! *****")
@@ -23,7 +24,7 @@ class FetchPatientHealthRecords100AtOnceUsers extends Simulation {
     .header(CONTENT_TYPE, APPLICATION_JSON)
 
   setUp(
-    FetchPatientHealthRecords.fetchUserHealthRecords.inject(atOnceUsers(1)).protocols(httpProtocol)
+    FetchPatientHealthRecords.fetchUserHealthRecords.inject(atOnceUsers(t_users)).protocols(httpProtocol)
   )
 }
 
