@@ -34,7 +34,12 @@ object DiscoverHIPForPatient {
       .header(AUTHORIZATION, "${userAccessToken}")
       .body(StringBody("{\n    \"hip\": {\n        \"id\": \"" + LINKED_PROVIDER + "\"\n    },\n    \"requestId\": \"" + java.util.UUID.randomUUID.toString + "\"\n}"))
       .check(status.is(200))
-  )
+      .check(bodyString.saveAs("BODY"))
+  ).exec(session => {
+    val body = session("BODY").as[String]
+    println(body)
+    session
+  })
 
 
   val discoverHIPScenario: ScenarioBuilder =
