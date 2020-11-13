@@ -10,7 +10,7 @@ import utils.Environment._
 
 object DiscoverHIPForPatient {
 
-  val userRequestBody = "{\"grantType\":\"password\",\"password\":\"" + password + "\",\"username\":\"" + username + "\"}"
+  val userRequestBody = "{\"grantType\":\"password\",\"password\":\"" + PASSWORD + "\",\"username\":\"" + USERNAME + "\"}"
 
 
   val userLogin: ChainBuilder = exec(
@@ -43,7 +43,7 @@ object DiscoverHIPForPatient {
 
 
   val discoverHIPScenario: ScenarioBuilder =
-    scenario("Fetch patient information by HIU")
+    scenario("Discover HIP for patient")
       .exec(userLogin)
       .pause(10)
       .exec(providerDetails)
