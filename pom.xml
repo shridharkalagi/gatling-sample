@@ -1,4 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.company</groupId>
@@ -23,6 +23,43 @@
         <scala.compat.version>2.12</scala.compat.version>
         <spec2.version>4.2.0</spec2.version>
     </properties>
+    <profiles>
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <baseUrl>https://dev.tweka.in</baseUrl>
+                <username>davidxanatos@ndhm</username>
+                <password>Test@1324</password>
+                <authorization>Authorization</authorization>
+                <hiu_authorization>Authorization</hiu_authorization>
+                <hiu_api>/hiu-api</hiu_api>
+                <hiu_username>admin</hiu_username>
+                <hiu_password>password</hiu_password>
+            </properties>
+        </profile>
+        <profile>
+            <id>uat</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>uat</value>
+                </property>
+            </activation>
+            <properties>
+                <baseUrl>https://preprod.ndhm.gov.in</baseUrl>
+                <username>davidxanatos@ndhm</username>
+                <password>Test@1324</password>
+                <authorization>X-AUTH-TOKEN</authorization>
+                <hiu_authorization>Authorization</hiu_authorization>
+                <hiu_api>/api-hiu</hiu_api>
+                <hiu_username>admin</hiu_username>
+                <hiu_password>tzDvMGYvEM3SFHB6</hiu_password>
+            </properties>
+        </profile>
+    </profiles>
 
     <dependencies>
         <dependency>
@@ -67,9 +104,20 @@
             <plugin>
                 <groupId>io.gatling</groupId>
                 <artifactId>gatling-maven-plugin</artifactId>
-<!--                <configuration>-->
-<!--                    <simulationClass>apitest.Simulation</simulationClass>-->
-<!--                </configuration>-->
+                <configuration>
+                    <simulationsFolder>src/test/scala</simulationsFolder>
+                    <jvmArgs>
+                        <jvmArg>-DbaseUrl=${baseUrl}</jvmArg>
+                        <jvmArg>-Dusername=${username}</jvmArg>
+                        <jvmArg>-Dpassword=${password}</jvmArg>
+                        <jvmArg>-Dauthorization=${authorization}</jvmArg>
+                        <jvmArg>-Dhiu_authorization=${hiu_authorization}</jvmArg>
+                        <jvmArg>-Dhiu_api=${hiu_api}</jvmArg>
+                        <jvmArg>-Dhiu_username=${hiu_username}</jvmArg>
+                        <jvmArg>-Dhiu_password=${hiu_password}</jvmArg>
+                    </jvmArgs>
+                    <propagateSystemProperties>true</propagateSystemProperties>
+                </configuration>
                 <version>3.0.5</version>
             </plugin>
         </plugins>
