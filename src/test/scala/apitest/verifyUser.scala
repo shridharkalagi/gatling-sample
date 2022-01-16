@@ -1,7 +1,7 @@
 package apitest
 
 import io.gatling.core.Predef._
-import io.gatling.http.Predef._
+import io.gatling.http.Predef.{http, _}
 import io.gatling.http.protocol.HttpProtocolBuilder
 import io.gatling.http.request.builder.HttpRequestBuilder.toActionBuilder
 
@@ -80,7 +80,7 @@ class verifyUser extends Simulation {
    * We also specify the HTTP protocol builder to be used by the load simulation.
    */
   setUp(
-    scn.inject(atOnceUsers(50))
-  ).protocols(theHttpProtocolBuilder)
+    scn.inject(atOnceUsers(1))
+  )
 }
 
