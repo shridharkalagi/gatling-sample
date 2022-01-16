@@ -11,7 +11,7 @@ import java.util.concurrent.LinkedBlockingDeque
 
 
 class SliderTest extends Simulation {
-
+  //generate a login token once and use the same token in the subsequent API calls
   object DequeHolder {
     val DataDeque = new LinkedBlockingDeque[String]()
   }
