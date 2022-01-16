@@ -18,7 +18,7 @@ class SliderTest extends Simulation {
 
   val theHttpProtocolBuilder: HttpProtocolBuilder = http
     .header("Content-Type", "application/json")
-    .header("postman_key", "BCVRtzwLJrz8mr7FKYffv2HGYY2JkKUzedVKrWkNundpN847Sd")
+    .header("postman_key", "")
     .baseUrl("https://user-bo.mopservice.in")
 
   val req = "{    \"mobile\" : \"" + "9844795732" + "\",   \"istest\": true\n}"
